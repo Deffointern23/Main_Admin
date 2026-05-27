@@ -1,33 +1,4 @@
-/* import { Link, Outlet } from "react-router-dom";
 
-function DashboardLayout() {
-  return (
-    <div style={{ display: "flex", height: "100vh" }}>
-
-      {/* SIDEBAR (left menu) 
-      <div style={{ width: "200px", background: "#111", color: "white", padding: "20px" }}>
-        <h2>Vendor Panel</h2>
-
-        <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
-          <Link to="/">Dashboard</Link>
-          <Link to="/orders">Orders</Link>
-          <Link to="/products">Products</Link>
-          <Link to="/customers">Customers</Link>
-          <Link to="/analytics">Analytics</Link>
-          <Link to="/settings">Settings</Link>
-        </div>
-      </div>
-
-      {/* MAIN CONTENT (right side) 
-      <div style={{ flex: 1, padding: "20px" }}>
-        <Outlet />
-      </div>
-
-    </div>
-  );
-}
-
-export default DashboardLayout; */
 
 import { useState } from "react";
 import Navbar from "../components/shared/Navbar";

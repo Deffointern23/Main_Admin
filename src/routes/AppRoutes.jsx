@@ -1,28 +1,4 @@
-/*import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Dashboard from "../pages/Dashboard";
-import Orders from "../pages/Orders";
-import Products from "../pages/Products";
-import Customers from "../pages/Customers";
-import Analytics from "../pages/Analytics";
-import Settings from "../pages/Settings";
-
-function AppRoutes() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-export default AppRoutes; */
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 

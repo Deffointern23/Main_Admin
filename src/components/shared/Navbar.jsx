@@ -1,3 +1,4 @@
+
 import { Search, Bell } from "lucide-react";
 
 function Navbar() {

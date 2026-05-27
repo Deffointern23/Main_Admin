@@ -1,44 +1,4 @@
-/*function Dashboard() {
-  return (
-    <div className="text-3xl font-bold p-10">
-      Dashboard Page
-    </div>
-  );
-}
 
-export default Dashboard;
-function Dashboard() {
-  return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-
-      {/* Cards 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl shadow">
-          <h2 className="text-gray-500">Total Revenue</h2>
-          <p className="text-2xl font-bold">₹45,000</p>
-        </div>
-
-        <div className="bg-white p-4 rounded-xl shadow">
-          <h2 className="text-gray-500">Orders</h2>
-          <p className="text-2xl font-bold">320</p>
-        </div>
-
-        <div className="bg-white p-4 rounded-xl shadow">
-          <h2 className="text-gray-500">Customers</h2>
-          <p className="text-2xl font-bold">120</p>
-        </div>
-
-        <div className="bg-white p-4 rounded-xl shadow">
-          <h2 className="text-gray-500">Pending</h2>
-          <p className="text-2xl font-bold">12</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default Dashboard; */
 import {
   LineChart,
   Line,
