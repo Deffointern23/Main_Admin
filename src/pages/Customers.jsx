@@ -1,5 +1,3 @@
-
-
 const customers = [
   {
     id: 1,
@@ -47,15 +45,15 @@ const customers = [
 
 function Customers() {
   return (
-    <div className="min-h-screen bg-[#fbf7f2] p-6">
-      <h1 className="text-3xl font-semibold text-[#2c2c2c] mb-6">Customers Details</h1>
+    <div className="min-h-screen bg-[#F5F3FF] p-6">
+      <h1 className="text-3xl font-semibold text-[#2E1463] mb-6">Customers Details</h1>
 
       {/* Table Card */}
-      <div className="bg-white border border-[#ead9c3] rounded-2xl shadow-sm overflow-hidden">
+      <div className="bg-white border border-purple-100 rounded-2xl shadow-sm overflow-hidden">
         <table className="w-full">
           {/* Header */}
           <thead>
-            <tr className="bg-[#c9a227] text-white">
+           <tr className="bg-gradient-to-r from-[#5b30af] to-[#6f51ac] text-white">
               <th className="p-4 text-left font-medium">Name</th>
               <th className="p-4 text-left font-medium">Email</th>
               <th className="p-4 text-left font-medium">Orders</th>
@@ -68,15 +66,15 @@ function Customers() {
             {customers.map((c) => (
               <tr
                 key={c.id}
-                className="border-b border-[#f1e6d6] hover:bg-[#fff8ec] transition"
+              className="border-b border-purple-100 hover:bg-purple-50 transition"
               >
                 {/* Name */}
                 <td className="p-4">
                   <div className="flex items-center gap-3">
-                    <div
-                      className="w-9 h-9 rounded-full bg-gradient-to-r from-[#c9a227] to-[#e6c46a]
-                                text-white flex items-center justify-center font-semibold"
-                    >
+                   <div
+  className="w-9 h-9 rounded-full bg-gradient-to-r from-[#2E1463] to-[#7C3AED]
+  text-white flex items-center justify-center font-semibold"
+>
                       {c.name.charAt(0)}
                     </div>
 
@@ -89,7 +87,7 @@ function Customers() {
 
                 {/* Orders */}
                 <td className="p-4">
-                  <span className="px-3 py-1 rounded-full bg-[#f7ecd2] text-[#8a6d1a] font-medium">
+                 <span className="px-3 py-1 rounded-full bg-purple-100 text-gray-700 font-medium">
                     {c.orders}
                   </span>
                 </td>
@@ -100,8 +98,8 @@ function Customers() {
                     className={`px-3 py-1 rounded-full text-sm font-medium
                   ${
                     c.status === "Active"
-                      ? "bg-green-100 text-green-700 border border-green-200"
-                      : "bg-gray-100 text-gray-600 border border-gray-200"
+                      ? "bg-purple-100 text-green-700 border border-purple-200"
+                      : "bg-slate-100 text-orange-600 border border-slate-200"
                   }`}
                   >
                     {c.status}

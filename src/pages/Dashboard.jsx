@@ -1,4 +1,3 @@
-
 import {
   LineChart,
   Line,
@@ -19,124 +18,110 @@ const data = [
 
 function Dashboard() {
   return (
-    <div className="min-h-screen bg-[#fffaf5] p-8 space-y-8">
+    <div className="min-h-screen bg-[#F8F5FF] p-6 space-y-6">
       {/* HEADER */}
-      <div className="flex items-center justify-between bg-gradient-to-r from-[#4b2e2e] via-[#7a4e2d] to-[#d4af37] p-8 rounded-[30px] shadow-2xl">
+      <div
+        className="flex items-center justify-between bg-gradient-to-r from-[#7150be] via-[#b3a3ce] to-[#bba6db]
+      p-6 rounded-2xl shadow-xl"
+      >
         <div>
-          <h1 className="text-5xl font-black text-white tracking-wide">
+          <h1 className="text-3xl font-black text-white tracking-wide">
             Jewellery Dashboard
           </h1>
 
-          <p className="text-[#fff3d6] mt-3 text-lg">
-            Elegant jewellery Collection ✨
+          <p className="text-purple-100 mt-1 text-sm">
+            Elegant Jewellery Collection ✨
           </p>
         </div>
 
-        <div className="hidden md:flex items-center justify-center w-28 h-28 rounded-full bg-white/20 backdrop-blur-md border border-white/30 shadow-xl">
-          <span className="text-5xl">👑</span>
+        <div className="hidden md:flex items-center justify-center w-20 h-20 rounded-full bg-white/20 backdrop-blur-md border border-white/30 shadow-lg">
+          <span className="text-3xl">👑</span>
         </div>
       </div>
 
       {/* STATS */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* CARD */}
-        <div className="bg-white rounded-[28px] p-6 border-2 border-[#f3e1b6] shadow-lg hover:-translate-y-2 hover:shadow-[0_15px_40px_rgba(212,175,55,0.35)] transition duration-300">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#d4af37] to-[#f7e7b4] flex items-center justify-center text-2xl shadow-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* CARD 1 */}
+        <div className="bg-white rounded-2xl p-5 border border-[#E9DDFD] shadow-sm hover:shadow-md transition flex flex-col items-center text-center">
+          <div
+            className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#A78BFA] to-[#DDD6FE]
+          flex items-center justify-center text-xl mb-3"
+          >
             💰
           </div>
 
-          <p className="text-gray-500 mt-5">Revenue</p>
-
-          <h2 className="text-4xl font-black text-[#4b2e2e] mt-2">₹45K</h2>
+          <p className="text-gray-500 text-xs">Revenue</p>
+          <h2 className="text-2xl font-black text-[#3ec949] mt-1">₹45K</h2>
         </div>
 
-        {/* CARD */}
-        <div className="bg-gradient-to-br from-[#fff0f3] to-[#ffe2ec] rounded-[28px] p-6 shadow-lg hover:-translate-y-2 hover:shadow-pink-200 transition duration-300">
-          <div className="w-14 h-14 rounded-2xl bg-pink-500 text-white flex items-center justify-center text-2xl shadow-lg">
+        {/* CARD 2 */}
+        <div className="bg-white rounded-2xl p-5 border border-[#E9DDFD] shadow-sm hover:shadow-md transition flex flex-col items-center text-center">
+          <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center text-xl text-white mb-3">
             🛍️
           </div>
 
-          <p className="text-gray-500 mt-5">Orders</p>
-
-          <h2 className="text-4xl font-black text-[#4b2e2e] mt-2">320</h2>
+          <p className="text-gray-500 text-xs">Orders</p>
+          <h2 className="text-2xl font-black text-[#536a74] mt-1">320</h2>
         </div>
 
-        {/* CARD */}
-        <div className="bg-gradient-to-br from-[#f4f0ff] to-[#ebe3ff] rounded-[28px] p-6 shadow-lg hover:-translate-y-2 hover:shadow-purple-200 transition duration-300">
-          <div className="w-14 h-14 rounded-2xl bg-purple-500 text-white flex items-center justify-center text-2xl shadow-lg">
+        {/* CARD 3 */}
+        <div className="bg-white rounded-2xl p-5 border border-[#E9DDFD] shadow-sm hover:shadow-md transition flex flex-col items-center text-center">
+          <div className="w-12 h-12 rounded-xl bg-violet-500 flex items-center justify-center text-xl text-white mb-3">
             👑
           </div>
 
-          <p className="text-gray-500 mt-5">Customers</p>
-
-          <h2 className="text-4xl font-black text-[#4b2e2e] mt-2">120</h2>
+          <p className="text-gray-500 text-xs">Customers</p>
+          <h2 className="text-2xl font-black text-[#536a74] mt-1">120</h2>
         </div>
 
-        {/* CARD */}
-        <div className="bg-gradient-to-br from-[#fff5f5] to-[#ffe3e3] rounded-[28px] p-6 shadow-lg hover:-translate-y-2 hover:shadow-red-200 transition duration-300">
-          <div className="w-14 h-14 rounded-2xl bg-red-500 text-white flex items-center justify-center text-2xl shadow-lg">
+        {/* CARD 4 */}
+        <div className="bg-white rounded-2xl p-5 border border-[#E9DDFD] shadow-sm hover:shadow-md transition flex flex-col items-center text-center">
+          <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center text-xl text-white mb-3">
             ⏳
           </div>
 
-          <p className="text-gray-500 mt-5">Pending</p>
-
-          <h2 className="text-4xl font-black text-red-500 mt-2">12</h2>
+          <p className="text-gray-500 text-xs">Pending</p>
+          <h2 className="text-2xl font-black text-orange-600 mt-1">12</h2>
         </div>
       </div>
 
       {/* CHART */}
-      <div className="bg-white rounded-[35px] p-8 shadow-2xl border border-[#f1dfb0]">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-white rounded-2xl p-6 shadow-md border border-[#E9DDFD]">
+        <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-3xl font-black text-[#4b2e2e]">
+            <h2 className="text-xl font-black text-[#2E1463]">
               Sales Analytics
             </h2>
-
-            <p className="text-gray-500 mt-1">Monthly Jewellery Sales</p>
+            <p className="text-gray-500 text-xs">Monthly Jewellery Sales</p>
           </div>
 
-          <div className="px-5 py-2 rounded-full bg-[#fff4d6] text-[#b88a00] font-semibold">
-            Growth +24%
+          <div className="px-3 py-1 rounded-full bg-purple-100 text-green-700 text-xs font-semibold">
+            +24% Growth
           </div>
         </div>
 
-        <div className="h-80">
+        <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data}>
-              <defs>
-                <linearGradient id="goldLine" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="#d4af37" />
-                  <stop offset="100%" stopColor="#ffdf7f" />
-                </linearGradient>
-              </defs>
-
-              <XAxis dataKey="name" stroke="#9c7b36" />
-
-              <YAxis stroke="#9c7b36" />
+              <XAxis dataKey="name" stroke="#536a74" />
+              <YAxis stroke="#536a74" />
 
               <Tooltip
                 contentStyle={{
-                  borderRadius: "16px",
+                  borderRadius: "12px",
                   border: "none",
-                  background: "#4b2e2e",
+                  background: "#2E1463",
                   color: "#fff",
+                  fontSize: "12px",
                 }}
               />
 
               <Line
                 type="monotone"
                 dataKey="sales"
-                stroke="url(#goldLine)"
-                strokeWidth={5}
-                dot={{
-                  r: 6,
-                  fill: "#d4af37",
-                  strokeWidth: 3,
-                  stroke: "#fff",
-                }}
-                activeDot={{
-                  r: 9,
-                }}
+               stroke="#536a74"
+                strokeWidth={3}
+                dot={{ r: 4, fill: "#536a74" }}
               />
             </LineChart>
           </ResponsiveContainer>
