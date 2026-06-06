@@ -28,9 +28,7 @@ function DashboardLayout() {
   }
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
   const location = useLocation();
-  const admin = JSON.parse(localStorage.getItem("admin"));
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -62,9 +60,13 @@ ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
           </button>
         </div>
         <div className="mb-5 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shrink-0">
-            💎
-          </div>
+         <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg shrink-0">
+  <img
+    src="/images/logo.jpg"
+    alt="Logo"
+    className="w-full h-full object-cover"
+  />
+</div>
 
           <div className="min-w-0">
             <h1 className="text-lg font-bold text-white whitespace-nowrap">
@@ -77,37 +79,6 @@ ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
           </div>
         </div>
 
-        {/*  */}
-        <div className="mb-4">
-          <button
-            onClick={() => setShowProfile(!showProfile)}
-            className="w-full flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center font-bold text-white">
-                {admin?.name?.charAt(0)?.toUpperCase()}
-              </div>
-
-              <div className="text-left">
-                <h3 className="text-purple-300 font-semibold">{admin?.name}</h3>
-
-                <p className="text-xs text-purple-200">Jewellery Vendor</p>
-              </div>
-            </div>
-
-            <span className="text-purple-300">{showProfile ? "▲" : "▼"}</span>
-          </button>
-
-          {showProfile && (
-            <div className="mt-2 p-3 rounded-xl bg-white/5 border border-white/10 text-sm">
-              <p className="text-purple-200">Email: {admin?.email}</p>
-
-              <p className="text-purple-200 mt-1">Phone: {admin?.phone}</p>
-
-              <p className="text-purple-200 mt-1">Store: {admin?.store}</p>
-            </div>
-          )}
-        </div>
 
         <div className="mb-4">
           <p className="text-[11px] uppercase tracking-widest text-purple-300">

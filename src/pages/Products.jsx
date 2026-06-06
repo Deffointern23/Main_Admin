@@ -146,65 +146,95 @@ function Products() {
       </div>
 
       {showForm && (
-        <div className="bg-white/80 backdrop-blur-md border border-[#f2d7b6] p-5 rounded-2xl shadow-md mb-6">
+        <div className="bg-white/80 backdrop-blur-md border border-purple-200 p-5 rounded-2xl shadow-md mb-6">
           <h2 className="text-xl font-bold text-[#2E1463] mb-4">
             Add New Product
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Product Name"
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, name: e.target.value })
-              }
-            />
+            {/* Product Name */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Product Name
+              </label>
 
-            <input
-              type="text"
-              placeholder="Price"
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, price: e.target.value })
-              }
-            />
-
-            <input
-              type="text"
-              placeholder="Stock"
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, stock: e.target.value })
-              }
-            />
-
-            <input
-              type="text"
-              placeholder="Category"
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setNewProduct({ ...newProduct, category: e.target.value })
-              }
-            />
-
-            <input
-              type="file"
-              accept="image/*"
-              className="p-3 rounded-xl border outline-none md:col-span-2"
-              onChange={(e) => {
-                const file = e.target.files[0];
-
-                if (file) {
-                  const imageUrl = URL.createObjectURL(file);
-
-                  setNewProduct({
-                    ...newProduct,
-                    image: imageUrl,
-                  });
+              <input
+                type="text"
+                placeholder="Enter product name"
+                className="p-3 rounded-xl border outline-none 
+    focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition"
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, name: e.target.value })
                 }
-              }}
-            />
+              />
+            </div>
+
+            {/* Price */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Price
+              </label>
+              <input
+                type="text"
+                placeholder="Price"
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, price: e.target.value })
+                }
+              />
+            </div>
+
+            {/* Stock */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Stock
+              </label>
+              <input
+                type="text"
+                placeholder="Stock"
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, stock: e.target.value })
+                }
+              />
+            </div>
+
+            {/* Category */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Category
+              </label>
+              <input
+                type="text"
+                placeholder="Category"
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) =>
+                  setNewProduct({ ...newProduct, category: e.target.value })
+                }
+              />
+            </div>
+
+            {/* Image */}
+            <div className="flex flex-col gap-1 md:col-span-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Product Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+                    setNewProduct({
+                      ...newProduct,
+                      image: imageUrl,
+                    });
+                  }
+                }}
+              />
+            </div>
           </div>
 
           <button
@@ -228,75 +258,108 @@ function Products() {
 
       {showEditForm && editProduct && (
         <div className="bg-white border border-purple-200 p-5 rounded-2xl shadow-md mb-6">
-          <h2 className="text-xl font-bold text-[#4b2e1e] mb-4">
+          <h2 className="text-xl font-bold text-[#2E1463] mb-4">
             Edit Product
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              value={editProduct.name}
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setEditProduct({
-                  ...editProduct,
-                  name: e.target.value,
-                })
-              }
-            />
-
-            <input
-              type="text"
-              value={editProduct.price}
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setEditProduct({
-                  ...editProduct,
-                  price: e.target.value,
-                })
-              }
-            />
-
-            <input
-              type="text"
-              value={editProduct.stock}
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setEditProduct({
-                  ...editProduct,
-                  stock: e.target.value,
-                })
-              }
-            />
-
-            <input
-              type="text"
-              value={editProduct.category}
-              className="p-3 rounded-xl border outline-none"
-              onChange={(e) =>
-                setEditProduct({
-                  ...editProduct,
-                  category: e.target.value,
-                })
-              }
-            />
-            <input
-              type="file"
-              accept="image/*"
-              className="p-3 rounded-xl border outline-none md:col-span-2"
-              onChange={(e) => {
-                const file = e.target.files[0];
-
-                if (file) {
-                  const imageUrl = URL.createObjectURL(file);
-
+            {/* Name */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Product Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter product name"
+                value={editProduct.name}
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) =>
                   setEditProduct({
                     ...editProduct,
-                    image: imageUrl,
-                  });
+                    name: e.target.value,
+                  })
                 }
-              }}
-            />
+              />
+            </div>
+
+            {/* Price */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Price
+              </label>
+              <input
+                type="text"
+                placeholder="Price"
+                value={editProduct.price}
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) =>
+                  setEditProduct({
+                    ...editProduct,
+                    price: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            {/* Stock */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Stock
+              </label>
+              <input
+                type="text"
+                placeholder="Stock"
+                value={editProduct.stock}
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) =>
+                  setEditProduct({
+                    ...editProduct,
+                    stock: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            {/* Category */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Category
+              </label>
+              <input
+                type="text"
+                placeholder="Category"
+                value={editProduct.category}
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) =>
+                  setEditProduct({
+                    ...editProduct,
+                    category: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            {/* Image */}
+            <div className="flex flex-col gap-1 md:col-span-2">
+              <label className="text-sm font-semibold text-gray-700 ml-1">
+                Product Image
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                className="p-3 rounded-xl border outline-none"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    const imageUrl = URL.createObjectURL(file);
+                    setEditProduct({
+                      ...editProduct,
+                      image: imageUrl,
+                    });
+                  }
+                }}
+              />
+            </div>
           </div>
 
           <div className="flex gap-3 mt-4">

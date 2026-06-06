@@ -3,7 +3,6 @@ import {
   Package,
   Grid3X3,
   Gift,
-  FileText,
   Search,
   Plus,
   Filter,
@@ -95,12 +94,26 @@ function Inventory() {
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [images, setImages] = useState([]);
   const [showCategories, setShowCategories] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
   const [allProducts, setAllProducts] = useState(products);
-
-  const handleSaveProduct = () => {
+  const [editingProduct, setEditingProduct] = useState(null);
+const handleSaveProduct = () => {
+  if (editingProduct) {
+    setAllProducts(
+      allProducts.map((item) =>
+        item.id === editingProduct.id
+          ? {
+              ...item,
+              name: productName,
+              image: images[0] || item.image,
+            }
+          : item
+      )
+    );
+  } else {
     const newProduct = {
       id: allProducts.length + 1,
       name: productName,
@@ -112,13 +125,14 @@ function Inventory() {
     };
 
     setAllProducts([...allProducts, newProduct]);
+  }
 
-    setShowAddProduct(false);
-
-    setProductName("");
-    setDescription("");
-    setImages([]);
-  };
+  setEditingProduct(null);
+  setShowAddProduct(false);
+  setProductName("");
+  setDescription("");
+  setImages([]);
+};
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -127,6 +141,22 @@ function Inventory() {
 
     setImages([...images, ...imageUrls]);
   };
+
+  const handleEdit = (product) => {
+  setEditingProduct(product);
+
+  setProductName(product.name);
+  setImages([product.image]);
+
+  setShowAddProduct(true);
+};
+
+ const handleView = (product) => {
+  setSelectedProduct(product);
+};
+  const handleDelete = (id) => {
+  setAllProducts(allProducts.filter((item) => item.id !== id));
+};
   if (showAddProduct) {
     return (
       <div className="min-h-screen bg-[#F5F0FF] p-6">
@@ -463,7 +493,7 @@ function Inventory() {
                 onClick={handleSaveProduct}
                 className="px-6 py-3 bg-[#8B5CF6] text-white rounded-lg"
               >
-                Save Product
+                {editingProduct ? "Update Product" : "Save Product"}
               </button>
             </div>
           </div>
@@ -484,7 +514,7 @@ function Inventory() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         <StatCard
           icon={<Package size={22} />}
           value="1,248"
@@ -499,11 +529,7 @@ function Inventory() {
 
         <StatCard icon={<Gift size={22} />} value="36" title="Out of Stock" />
 
-        <StatCard
-          icon={<FileText size={22} />}
-          value="22"
-          title="Draft Listings"
-        />
+      
       </div>
 
       {/* Search & Buttons */}
@@ -519,7 +545,13 @@ function Inventory() {
 
         <div className="flex flex-wrap gap-3">
           <button
-            onClick={() => setShowAddProduct(true)}
+            onClick={() => {
+  setEditingProduct(null);
+  setProductName("");
+  setDescription("");
+  setImages([]);
+  setShowAddProduct(true);
+}}
             className="bg-[#8B5CF6] text-white px-5 py-3 rounded-xl flex items-center gap-2"
           >
             <Plus size={18} />
@@ -607,11 +639,29 @@ function Inventory() {
                 </span>
               </div>
 
-              <div className="border-t mt-4 pt-4 flex justify-center gap-6 text-gray-500">
-                <Eye size={18} className="cursor-pointer" />
-                <Pencil size={18} className="cursor-pointer" />
-                <Trash2 size={18} className="cursor-pointer" />
-              </div>
+           <div className="border-t mt-4 pt-4 flex justify-center gap-6 text-gray-500">
+  <Eye
+    size={18}
+    className="cursor-pointer"
+    onClick={() => handleView(item)}
+  />
+
+  <Pencil
+    size={18}
+    className="cursor-pointer"
+    onClick={() => {
+      setEditingProduct(item);
+      setProductName(item.name);
+      setShowAddProduct(true);
+    }}
+  />
+
+  <Trash2
+    size={18}
+    className="cursor-pointer text-red-500"
+    onClick={() => handleDelete(item.id)}
+  />
+</div>
             </div>
           </div>
         ))}
@@ -716,6 +766,50 @@ function Inventory() {
           </div>
         </div>
       )}
+
+      {selectedProduct && (
+  <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div className="bg-white rounded-2xl w-full max-w-md p-6 relative">
+
+     <div className="flex justify-end mb-3">
+  <button
+    onClick={() => setSelectedProduct(null)}
+    className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
+  >
+    <X size={18} />
+  </button>
+</div>
+
+      <img
+        src={selectedProduct.image}
+        alt={selectedProduct.name}
+        className="w-full h-56 object-cover rounded-xl mb-4"
+      />
+
+      <h2 className="text-2xl font-bold text-[#2E1463]">
+        {selectedProduct.name}
+      </h2>
+
+      <p className="text-gray-500 mt-2">
+        {selectedProduct.category}
+      </p>
+
+      <div className="mt-4 space-y-2">
+        <p>
+          <strong>Price:</strong> ₹{selectedProduct.price}
+        </p>
+
+        <p>
+          <strong>Stock:</strong> {selectedProduct.stock}
+        </p>
+
+        <p>
+          <strong>Tag:</strong> {selectedProduct.tag}
+        </p>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Footer */}
       <div className="flex flex-col md:flex-row justify-between items-center mt-10 gap-4">
