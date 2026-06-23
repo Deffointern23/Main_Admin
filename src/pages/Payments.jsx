@@ -5,6 +5,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+
 function Payments() {
   const payments = [
     {
@@ -33,7 +34,7 @@ function Payments() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F5F0FF] via-[#F8F5FF] to-white p-6">
 
-      {/* Header */}
+      
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-[#2E1463]">
           Payments
@@ -44,7 +45,7 @@ function Payments() {
         </p>
       </div>
 
-      {/* Stats Cards */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
 
         <div className="bg-white border border-purple-300 rounded-2xl p-5 text-center">
@@ -105,7 +106,7 @@ function Payments() {
 
       </div>
 
-      {/* Payments Table */}
+      
 
       <div className="bg-white border border-purple-100 rounded-3xl overflow-hidden">
 

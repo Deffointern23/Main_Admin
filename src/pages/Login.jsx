@@ -6,24 +6,10 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    const admin = JSON.parse(localStorage.getItem("admin"));
-
-    if (!admin) {
-      alert("Admin account not found!");
-      return;
-    }
-
-    if (
-      email === admin.email &&
-      password === admin.password
-    ) {
-      localStorage.setItem("isLoggedIn", "true");
-      navigate("/");
-    } else {
-      alert("Invalid Email or Password");
-    }
-  };
+const handleLogin = () => {
+  localStorage.setItem("isLoggedIn", "true");
+  navigate("/");
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
