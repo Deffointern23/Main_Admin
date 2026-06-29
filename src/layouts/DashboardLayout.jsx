@@ -1,296 +1,140 @@
-import {
-  Link,
-  Outlet,
-  useLocation,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { useState } from "react";
-import Navbar from "../components/shared/Navbar";
-
+import { useAuth } from "../context/AuthContext";
 import {
-  LayoutDashboard,
-  ShoppingCart,
-  Package,
-  FileText,
-  EyeOff,
-  Wallet,
-  Boxes,
-  Users,
-  Star,
-  BarChart3,
-  CreditCard,
-  Settings,
-  UserCog,
-  ChevronDown,
-  Menu,
+  LayoutDashboard, ShoppingCart, Package, Boxes,
+  Users, Star, BarChart3, CreditCard, Settings, LogOut, Menu, X, Store,
 } from "lucide-react";
 
-function DashboardLayout() {
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
+const menu = [
+  { name: "Dashboard",  path: "/",          icon: LayoutDashboard },
+  { name: "Orders",     path: "/orders",     icon: ShoppingCart },
+  { name: "Customers",  path: "/customers",  icon: Users },
+  { name: "Payments",   path: "/payments",   icon: CreditCard },
+  { name: "Vendors",    path: "/vendors",    icon: Store },
+  { name: "Products",   path: "/products",   icon: Package },
+  { name: "Inventory",  path: "/inventory",  icon: Boxes },
+  { name: "Analytics",  path: "/analytics",  icon: BarChart3 },
+  { name: "Reviews",    path: "/reviews",    icon: Star },
+];
 
-  if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
-  }
-  const [searchTerm, setSearchTerm] = useState("");
+function DashboardLayout() {
+  const { isAuthenticated, loading, admin, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    navigate("/login");
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0f0f0f] flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-[#C5A059] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
-  const menuSections = [
-    {
-      title: "Main",
-      items: [{ name: "Dashboard", path: "/", icon: LayoutDashboard }],
-    },
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
-    {
-      title: "Vendors Management",
-      items: [
-        { name: "Applications", path: "/applications", icon: FileText },
-        { name: "Approved Vendors", path: "/approved-vendors", icon: Users },
-        { name: "Rejected Vendors", path: "/rejected-vendors", icon: Users },
-      ],
-    },
-
-    {
-      title: "Listings",
-      items: [
-        { name: "All Listings", path: "/listings", icon: Package },
-        { name: "Pending Listings", path: "/pending-listings", icon: FileText },
-        { name: "Hidden Listings", path: "/hidden-listings", icon: EyeOff },
-      ],
-    },
-
-    {
-      title: "Orders & Customers",
-      items: [
-        { name: "Orders", path: "/orders", icon: ShoppingCart },
-        { name: "Customers", path: "/customers", icon: Users },
-      ],
-    },
-
-    {
-      title: "Commission & Payments",
-      items: [
-        { name: "Commission", path: "/commission", icon: Wallet },
-        { name: "Payments", path: "/payments", icon: CreditCard },
-        { name: "Transactions", path: "/transactions", icon: CreditCard },
-      ],
-    },
-  ];
-
-  const pageInfo = {
-    "/": {
-      title: "Dashboard",
-      breadcrumb: "Main > Dashboard",
-    },
-
-    "/applications": {
-      title: "Applications",
-      breadcrumb: "Vendors Management > Applications",
-    },
-
-    "/approved-vendors": {
-      title: "Approved Vendors",
-      breadcrumb: "Vendors Management > Approved Vendors",
-    },
-
-    "/rejected-vendors": {
-      title: "Rejected Vendors",
-      breadcrumb: "Vendors Management > Rejected Vendors",
-    },
-
-    "/listings": {
-      title: "All Listings",
-      breadcrumb: "Listings > All Listings",
-    },
-
-    "/pending-listings": {
-      title: "Pending Listings",
-      breadcrumb: "Listings > Pending Listings",
-    },
-
-    "/hidden-listings": {
-      title: "Hidden Listings",
-      breadcrumb: "Listings > Hidden Listings",
-    },
-
-    "/orders": {
-      title: "Orders",
-      breadcrumb: "Orders & Customers > Orders",
-    },
-
-    "/customers": {
-      title: "Customers",
-      breadcrumb: "Orders & Customers > Customers",
-    },
-
-    "/commission": {
-      title: "Commission",
-      breadcrumb: "Commission & Payments > Commission",
-    },
-
-    "/payments": {
-      title: "Payments",
-      breadcrumb: "Commission & Payments > Payments",
-    },
-
-    "/transactions": {
-      title: "Transactions",
-      breadcrumb: "Commission & Payments > Transactions",
-    },
-
-    "/settings": {
-      title: "Settings",
-      breadcrumb: "Account > Settings",
-    },
-    "/admin-users": {
-      title: "Admin Users",
-      breadcrumb: "Account > Admin Users",
-    },
-  };
-
-  const currentPage = pageInfo[location.pathname] || {
-    title: "Dashboard",
-    breadcrumb: "Main > Dashboard",
-  };
+  const handleLogout = () => { logout(); navigate("/login"); };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div
-        className={`w-60 bg-gradient-to-b from-[#2E1463] to-[#1B0E3A] text-white px-3 py-3 fixed md:static h-screen overflow-hidden z-50 transition-transform duration-300 border-r border-white/10
-${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+    <div className="flex h-screen bg-[#0f0f0f] text-white overflow-hidden">
+      {/* Overlay */}
+      {open && (
+        <div className="fixed inset-0 bg-black/60 z-40 md:hidden" onClick={() => setOpen(false)} />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`w-60 bg-[#111] border-r border-[#C5A059]/10 fixed md:static h-screen z-50 flex flex-col transition-transform duration-300
+        ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
-        <div className="md:hidden mb-3">
-          <button onClick={() => setOpen(false)} className="text-xl">
-            ✕
-          </button>
-        </div>
-        <div className="mb-3 flex items-center gap-2">
-          <div className="w-10 h-10 rounded-lg overflow-hidden shadow-lg shrink-0">
-            <img
-              src="/images/logo.webp"
-              alt="Logo"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          <div className="min-w-0">
-            <h1 className="text-lg font-bold text-white whitespace-nowrap">
-              Lustre Admin
-            </h1>
-
-            <p className="text-[10px] text-purple-200 uppercase tracking-widest">
-              Super Admin
-            </p>
+        {/* Brand */}
+        <div className="p-5 border-b border-[#C5A059]/10">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-[#C5A059] flex items-center justify-center font-black text-black text-sm shrink-0">
+              C&F
+            </div>
+            <div>
+              <p className="font-black text-white text-sm leading-tight">Curves & Fitz</p>
+              <p className="text-[10px] text-[#C5A059] uppercase tracking-widest">Admin Suite</p>
+            </div>
           </div>
         </div>
 
-        {menuSections.map((section) => (
-          <div key={section.title} className="mb-2">
-            <p className="text-[10px] uppercase tracking-widest text-purple-300 mb-1">
-              {section.title}
-            </p>
+        {/* Nav */}
+        <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
+          <p className="text-[10px] uppercase tracking-widest text-gray-600 px-3 py-2">Navigation</p>
+          {menu.map(({ name, path, icon: Icon }) => {
+            const active = location.pathname === path;
+            return (
+              <Link
+                key={name}
+                to={path}
+                onClick={() => setOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  active
+                    ? "bg-[#C5A059]/15 text-[#C5A059] border border-[#C5A059]/25"
+                    : "text-gray-400 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                <Icon size={18} className="shrink-0" />
+                {name}
+              </Link>
+            );
+          })}
 
-            <nav className="space-y-0.5">
-              {section.items.map((item) => {
-                const Icon = item.icon;
-                const active = location.pathname === item.path;
-
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className={`flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-200 font-medium ${
-                      active
-                        ? "bg-purple-500/20 text-purple-300 border border-purple-400"
-                        : "text-purple-300 hover:bg-white/10"
-                    }`}
-                  >
-                    <Icon size={20} className="shrink-0" />
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </nav>
+          <div className="border-t border-[#C5A059]/10 mt-2 pt-2">
+            <p className="text-[10px] uppercase tracking-widest text-gray-600 px-3 py-2">Account</p>
+            <Link
+              to="/settings"
+              onClick={() => setOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                location.pathname === "/settings"
+                  ? "bg-[#C5A059]/15 text-[#C5A059] border border-[#C5A059]/25"
+                  : "text-gray-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <Settings size={18} />
+              Settings
+            </Link>
           </div>
-        ))}
-        <div className="mt-1 border-t border-white/10 pt-1">
-          <p className="text-[10px] uppercase tracking-widest text-purple-300 mb-1">
-            Account
-          </p>
+        </nav>
 
-          <Link
-            to="/settings"
-            className={`flex items-center gap-3 px-3 py-2 text-sm rounded-xl transition-all duration-200 ${
-              location.pathname === "/settings"
-                ? "bg-purple-500/20 text-purple-300 border border-purple-400"
-                : "text-purple-300 hover:bg-white/10"
-            }`}
-          >
-            <Settings size={20} />
-            Settings
-          </Link>
-          <Link
-            to="/admin-users"
-            className={`flex items-center gap-3 px-3 py-2 text-sm rounded-xl transition-all duration-200 ${
-              location.pathname === "/admin-users"
-                ? "bg-purple-500/20 text-purple-300 border border-purple-400"
-                : "text-purple-300 hover:bg-white/10"
-            }`}
-          >
-            <UserCog size={20} />
-            Admin Users
-          </Link>
-        </div>
-        <div className="mt-1 pt-1 border-t border-white/10">
+        {/* Admin info + Logout */}
+        <div className="p-3 border-t border-[#C5A059]/10">
+          <div className="px-3 py-2 mb-1">
+            <p className="text-xs font-semibold text-white truncate">{admin?.name}</p>
+            <p className="text-[10px] text-gray-500 truncate">{admin?.email}</p>
+          </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-1.5 text-sm w-full rounded-xl text-purple-100 hover:bg-white/10 transition-all duration-200"
+            className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm text-gray-400 hover:text-red-400 hover:bg-red-500/5 transition-all"
           >
-            <span className="text-lg">↩</span>
+            <LogOut size={18} />
             Sign Out
           </button>
         </div>
-      </div>
+      </aside>
 
-      <button
-        className="md:hidden text-2xl mt-2 ml-2 self-start"
-        onClick={() => setOpen(true)}
-      >
-        ☰
-      </button>
-      <div className="flex-1 p-6 overflow-auto">
-        <div className="flex flex-col md:flex-row md:items-start justify-between mb-8 px-6 py-5 rounded-3xl bg-white border border-[#E9DDFD] shadow-lg gap-4">
-          <div className="w-full">
-            <div className="flex items-center gap-2 md:gap-3">
-              <Menu size={24} className="text-[#2E1463]" />
+      {/* Main */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top bar */}
+        <header className="bg-[#111] border-b border-[#C5A059]/10 px-4 py-3 flex items-center gap-3 shrink-0">
+          <button className="md:hidden text-gray-400" onClick={() => setOpen(true)}>
+            <Menu size={20} />
+          </button>
+          <input
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search orders, customers…"
+            className="flex-1 bg-[#1a1a1a] border border-[#333] text-white text-sm px-4 py-2 rounded-xl focus:outline-none focus:border-[#C5A059] transition placeholder:text-gray-600 max-w-md"
+          />
+        </header>
 
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#2E1463] whitespace-nowrap">
-                {currentPage.title}
-              </h1>
-            </div>
-
-            <p className="text-xs sm:text-sm text-gray-500 mt-1 md:ml-10">
-              {currentPage.breadcrumb}
-            </p>
-
-            <div className="flex md:hidden items-center justify-start gap-4 mt-4">
-              <Navbar />
-            </div>
-          </div>
-
-          <div className="hidden md:flex">
-            <Navbar />
-          </div>
-        </div>
-
-        <Outlet context={{ searchTerm }} />
+        <main className="flex-1 overflow-auto bg-[#0f0f0f]">
+          <Outlet context={{ searchTerm }} />
+        </main>
       </div>
     </div>
   );

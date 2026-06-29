@@ -1,177 +1,87 @@
-import {
-  CreditCard,
-  Wallet,
-  IndianRupee,
-  TrendingUp,
-} from "lucide-react";
-
+import { useEffect, useState } from "react";
+import { api } from "../lib/api";
+import { RefreshCw } from "lucide-react";
 
 function Payments() {
-  const payments = [
-    {
-      id: "#PAY001",
-      customer: "Priya Sharma",
-      amount: "₹25,000",
-      method: "UPI",
-      status: "Completed",
-    },
-    {
-      id: "#PAY002",
-      customer: "Rahul Verma",
-      amount: "₹18,500",
-      method: "Card",
-      status: "Pending",
-    },
-    {
-      id: "#PAY003",
-      customer: "Ananya Patel",
-      amount: "₹42,000",
-      method: "Net Banking",
-      status: "Completed",
-    },
-  ];
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadData = () => {
+    setLoading(true);
+    api.get("/api/admin/orders")
+      .then((d) => {
+        if (d.success) {
+          setOrders(d.data.filter((o) => o.paymentStatus === "PAID" || o.razorpayPaymentId));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { loadData(); }, []);
+
+  const totalRevenue = orders.reduce((s, o) => s + (o.amount || 0), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#F5F0FF] via-[#F8F5FF] to-white p-6">
-
-      
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold text-[#2E1463]">
-          Payments
-        </h1>
-
-        <p className="text-purple-500 mt-2">
-          Track all payment transactions
-        </p>
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-black text-white">Payments</h1>
+          <p className="text-gray-500 text-sm mt-0.5">
+            {orders.length} paid transactions · ₹{totalRevenue.toLocaleString("en-IN")} collected
+          </p>
+        </div>
+        <button onClick={loadData} className="flex items-center gap-2 bg-[#C5A059]/10 border border-[#C5A059]/20 text-[#C5A059] px-4 py-2 rounded-xl text-sm hover:bg-[#C5A059]/20 transition">
+          <RefreshCw size={14} /> Refresh
+        </button>
       </div>
 
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
-
-        <div className="bg-white border border-purple-300 rounded-2xl p-5 text-center">
-      <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-green-800 mx-auto">
-  <IndianRupee />
-</div>
-
-          <h2 className="text-3xl font-bold mt-4 text-[#16d34e]">
-            ₹8.5L
-          </h2>
-
-          <p className="text-gray-500 text-sm">
-            Total Revenue
-          </p>
-        </div>
-
-        <div className="bg-white border border-purple-300 rounded-2xl p-5 text-center">
-          <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 mx-auto">
-            <Wallet />
-          </div>
-
-          <h2 className="text-3xl font-bold mt-4 text-[#36323d]">
-            248
-          </h2>
-
-          <p className="text-gray-500 text-sm">
-            Total Payments
-          </p>
-        </div>
-
-        <div className="bg-white border border-purple-300 rounded-2xl p-5 text-center">
-          <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 mx-auto">
-            <CreditCard />
-          </div>
-
-          <h2 className="text-3xl font-bold mt-4 text-[#e6653e]">
-            18
-          </h2>
-
-          <p className="text-gray-500 text-sm">
-            Pending Payments
-          </p>
-        </div>
-
-        <div className="bg-white border border-purple-300 rounded-2xl p-5 text-center">
-          <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-700 mx-auto">
-            <TrendingUp />
-          </div>
-
-          <h2 className="text-3xl font-bold mt-4 text-[#16d34e]">
-            +24%
-          </h2>
-
-          <p className="text-gray-500 text-sm">
-            Revenue Growth
-          </p>
-        </div>
-
-      </div>
-
-      
-
-      <div className="bg-white border border-purple-100 rounded-3xl overflow-hidden">
-
-        <div className="p-5 border-b border-purple-100">
-          <h2 className="text-xl font-bold text-[#2E1463]">
-            Recent Transactions
-          </h2>
-        </div>
-
-        <div className="overflow-x-auto">
-
-          <table className="w-full">
-
-            <thead className="bg-purple-50">
-              <tr className="text-left text-sm text-gray-500">
-                <th className="p-4">Payment ID</th>
-                <th className="p-4">Customer</th>
-                <th className="p-4">Amount</th>
-                <th className="p-4">Method</th>
-                <th className="p-4">Status</th>
-              </tr>
-            </thead>
-
-            <tbody>
-
-              {payments.map((payment, index) => (
-                <tr
-                  key={index}
-                  className="border-t border-purple-100"
-                >
-                  <td className="p-4 font-semibold">
-                    {payment.id}
-                  </td>
-
-                  <td className="p-4">
-                    {payment.customer}
-                  </td>
-
-                  <td className="p-4 font-bold text-[#229b32]">
-                    {payment.amount}
-                  </td>
-
-                  <td className="p-4">
-                    {payment.method}
-                  </td>
-
-                  <td className="p-4">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        payment.status === "Completed"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
-                    >
-                      {payment.status}
-                    </span>
-                  </td>
+      <div className="bg-[#111] border border-[#C5A059]/10 rounded-2xl overflow-hidden">
+        {loading ? (
+          <div className="p-8 text-center text-gray-500">Loading payments…</div>
+        ) : orders.length === 0 ? (
+          <div className="p-8 text-center text-gray-500">No completed payments yet.</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-[#C5A059]/10 text-[10px] uppercase tracking-wider text-gray-500">
+                  <th className="px-4 py-3 text-left">Payment ID</th>
+                  <th className="px-4 py-3 text-left">Customer</th>
+                  <th className="px-4 py-3 text-left">Service</th>
+                  <th className="px-4 py-3 text-left">Amount</th>
+                  <th className="px-4 py-3 text-left">Status</th>
+                  <th className="px-4 py-3 text-left">Date</th>
                 </tr>
-              ))}
-
-            </tbody>
-
-          </table>
-
-        </div>
+              </thead>
+              <tbody>
+                {orders.map((o) => (
+                  <tr key={o.id} className="border-b border-[#C5A059]/5 hover:bg-[#C5A059]/5 transition">
+                    <td className="px-4 py-3 font-mono text-xs text-gray-400">
+                      {o.razorpayPaymentId ? o.razorpayPaymentId.slice(0, 16) + "…" : o.id.slice(0, 8) + "…"}
+                    </td>
+                    <td className="px-4 py-3">
+                      <p className="text-white font-medium">{o.customerName}</p>
+                      <p className="text-gray-500 text-xs">{o.email || o.phone}</p>
+                    </td>
+                    <td className="px-4 py-3 text-gray-300">{o.serviceType}</td>
+                    <td className="px-4 py-3 text-[#C5A059] font-black">
+                      ₹{o.amount?.toLocaleString("en-IN")}
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="px-2 py-1 rounded-full text-[10px] font-bold bg-green-500/10 text-green-400 border border-green-500/20">
+                        {o.paymentStatus}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-gray-500 text-xs">
+                      {new Date(o.createdAt).toLocaleDateString("en-IN")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );
